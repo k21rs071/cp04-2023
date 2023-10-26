@@ -38,6 +38,13 @@
         $('#btnC').click(function(e) {
             btnCClick(e);
         });
+
+        $('#btnD').click(function(e) {
+            btnDClick(e);
+        });
+
+        
+
         init();
     });
     
@@ -153,6 +160,7 @@
     var active = false;
     var startTime = 0;
     var period = 0;
+    var x = 0;
 
     
     // ボタンの初期設定
@@ -160,6 +168,8 @@
         $('#btnA').prop('disabled', false);
         $('#btnB').prop('disabled', false);
         $('#btnC').prop('disabled', false);
+        $('#btnD').prop('disabled', false);
+        
         
     }
 
@@ -187,15 +197,25 @@
     // ButtonBがクリックされた時の処理
     function btnBClick(e){
         active = false;
-        
+        timer()= false;
+        $("#btnB").css("background-color","black");
     }
 
     // ButtonCがクリックされた時の処理
     function btnCClick(e){
-        $('#btnB').prop('disabled', true);
+        
         alarm();
         active = false;
         period = 60* parseInt( $("#minute").val() ) + parseInt( $("#second").val() );
+        $("#time").html("経過時間： 0");
+        $("#remain").html("残り時間： " + period);
+    }
+
+    // ButtonDがクリックされた時の処理
+    function btnDClick(e){
+        alarm();
+        active= false;
+        period=180;
         $("#time").html("経過時間： 0");
         $("#remain").html("残り時間： " + period);
     }
@@ -204,15 +224,18 @@
     // 繰り返し実行する処理
     function timer(){  
         if(active){
+            
             var time=parseInt((new Date()-startTime)/1000);
             var rest=period - time;
             $("#time").html("経過時間： "+time);
             $("#remain").html("残り時間： "+rest);
             analog(rest);
-        }
+               
         if(rest<=0){
             active=false;
             alarm();
+        }
+
         }
     } 
 
@@ -229,6 +252,7 @@
     <button id="btnA">start</button>  
     <button id="btnB">stop</button>  
     <button id="btnC">set</button>  
+    <button id="btnD">３分</button>
     <input type="number" id="minute" value=0 >
     <input type="number" id="second" value=15 >
 </body>
